@@ -1,0 +1,61 @@
+{% extends 'base.html' %}{% block content%}
+<h1>Favorites</h1>
+
+<div class="pages" id="pagination-container">
+    <button class='paginacaoCursor pageBtn' id="beforePagination"><-Prev</button>
+    <button class='paginacaoCursor pageBtn' id="afterPagination">Next-></button>
+</div>
+<ul class="paginationTable">
+    {% for favorite in favorites %}
+        <li id="{{favorite.photo_id}}" class="tableItem">
+            <button class="btn-img" onclick="add_favorites('{{favorite.server}}','{{favorite.photo_id}}','{{favorite.secret}}')">
+                <div class="img-wrap container">
+                    <img class="images" src="https://live.staticflickr.com/{{favorite.server}}/{{favorite.photo_id}}_{{favorite.secret}}.jpg" height="200px"/>
+                    <div class="img_text" id="img_text_{{favorite.photo_id}}" style="display: none;"></div>
+                </div>
+            </button>
+        </li>
+    {% endfor %}
+</ul>
+    
+<script>
+    function add_favorites(server,id,secret){
+        var csrf_token = $("[name=csrfmiddlewaretoken]").val();
+        $.ajax({
+            url: "add_favorite",
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{csrf_token}}',
+                'server': JSON.stringify(server),
+                'id': JSON.stringify(id),
+                'secret': JSON.stringify(secret),
+    
+            },
+            success: function(data) {
+                if (data["status"]=='removed'){
+                    document.getElementById('img_text_'+id).innerHTML = "Removed From Favorites"
+                    $( "#img_text_"+id ).show(); 
+                    setTimeout(function() {
+                    $( "#img_text_"+id ).hide();
+                    }, 2000);
+                    $( "#"+id ).remove();
+                }
+                else if ((data["status"]=='added'))
+                {
+                    document.getElementById('img_text_'+id).innerHTML = "Added to Favorites"
+                    $( "#img_text_"+id ).show(); 
+                    setTimeout(function() {
+                    $( "#img_text_"+id ).hide();
+                    }, 2000);
+
+                }
+                else if ((data["status"]=='not authenticated'))
+                {
+                    window.location.pathname = '/accounts/login';
+                }
+
+            }
+        });
+    };
+</script>
+  {% endblock %}

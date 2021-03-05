@@ -1,0 +1,63 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+
+<div class="sidenav">
+    <div class="login-main-text"  style="color: aliceblue;">
+       <p style="font-size:xx-large;color: rgb(250, 253, 255);">GeoLocation Image Search</p><br><br>
+       <p style="color: rgb(255, 255, 255);">Login or SignUp from here to access.</p>
+    </div>
+  </div>
+  <div class="main">
+    <div class="col-md-6 col-sm-12">
+       <div class="register-form">
+        <h1 style="text-align: center;">
+            SIGNUP
+         </h1>
+        {% if form.errors %}
+                <div>
+                  <ul>
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error|escape }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                {% endif %}
+                   <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                    {% csrf_token %}
+                        <div class="form-group">
+                            <label>Enter Name</label>
+                            {{form.name}}
+                        </div>
+                        <div class="form-group">
+                                   <label>Enter Email</label>
+                                   {{form.email}}
+                               </div>
+                                   <div class="form-group">
+                                   <label>Enter Password</label>
+                                   {{form.password1}}
+                               </div>
+                                <div class="form-group">
+                                   <label>Re Type Password </label>
+                                   {{form.password2}}
+                               </div>
+                               <div class="signup-end">
+                                {% blocktrans %}<a href="{{ login_url }}">Already have an account? Log In</a>.{% endblocktrans %}
+                               <button type="submit" class="btn btn-danger">SIGN UP</button>
+                               </div>
+  
+                    </form>
+            </div>
+       </div>
+    </div>
+  </div>
+{% endblock %}

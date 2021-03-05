@@ -1,0 +1,108 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<div class="main">
+<h1 style="margin-bottom: 20px;">GeoLocation Pictures</h1>
+    <form class="forms" action="{% url 'pictures:pictures' %}" method="get">
+        <input type="text" id="lat_field" name="lat" placeholder="Latitute" class="form-control"/>
+        <input type="text" id="long_field" name="long" placeholder="Longitude" class="form-control"/>
+        {% if request.user.is_authenticated %}
+        <div style="display: flex;flex-direction:row"> 
+            <select id="location_list" onclick="update_fields(this.value)" class="form-control">
+                <option>----</option>
+                {% for location in locations %}
+                    <option value='{"lat":"{{location.latitude}}","longitude":"{{location.longitude}}"}'>{{location.name}}</option>
+                {% endfor %}
+            </select>
+            <button id = "myBtn" class="btn btn-primary" type="button" style="margin-left: 5px;"><i class="fa fa-plus"></i></button>
+        </div>
+        <a href="favorites" class="btn btn-success" style="margin-top: 10px;">Favorites</a>
+        {% else %}
+            <div>Please Login to View and Save Locations</div>
+        {% endif %}
+        <button type="submit" class="btn btn-primary forms-btn">Search</button>
+    </form>
+      
+                    <!-- The Modal -->
+        <div id="myModal" class="modal">
+    
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="user-list">
+                    <form class="forms" action="{% url 'pictures:index' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="text" id="loc_lat" placeholder="Latitute" class="form-control"/>
+                        <input type="text" id="loc_long" placeholder="Longitude" class="form-control"/>
+                        <input type="text" id="loc_name" placeholder="Name" class="form-control"/>
+                        <button type="button" onclick="add_location()" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+    
+        </div>
+</div>
+    <script>
+        function add_location(){
+            var lat = document.getElementById('loc_lat').value;
+            var longitude = document.getElementById('loc_long').value;
+            var name = document.getElementById('loc_name').value;
+            $.ajax({
+                url: "/",
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{csrf_token}}',
+                    'lat': JSON.stringify(lat),
+                    'long': JSON.stringify(longitude),
+                    'name': JSON.stringify(name),
+        
+                },
+                success: function(data) {
+                    if (data["status"]=='present')
+                    {
+                        alert("location already present")
+                    }
+                    else if (data["status"]=='added')
+                    {
+                        document.getElementById("location_list").innerHTML +="<option value='{\"lat\":\""+lat+"\",\"longitude\":\""+longitude+"\"}'>"+name+"</option>";
+                        document.getElementById("myModal").style.display="none";
+                    }
+                }
+            });
+        };
+
+        function update_fields(values)
+        {
+            var json_val =JSON.parse(values)
+            console.log(json_val['lat']+"  "+json_val['longitude'])
+            document.getElementById('lat_field').value =json_val['lat'];
+            document.getElementById('long_field').value =json_val['longitude'];
+        }
+        
+        var modal = document.getElementById("myModal");
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {
+        modal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+        modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+    </script>
+
+{% endblock %}
