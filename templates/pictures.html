@@ -9,7 +9,7 @@
     {% for photo in photos.photo %}
         <li class="tableItem">
             <button class="btn-img" onclick="add_favorites('{{photo.server}}','{{photo.id}}','{{photo.secret}}')">
-                <div class="img-wrap container">
+                <div class="img-wrap contain">
                     <img class="images" src="https://live.staticflickr.com/{{photo.server}}/{{photo.id}}_{{photo.secret}}.jpg" height="200px"/>
                     <div class="img_text" id="img_text_{{photo.id}}" style="display: none;"></div>
                 </div>
