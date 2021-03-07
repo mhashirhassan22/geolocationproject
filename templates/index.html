@@ -32,8 +32,8 @@
                 <div class="user-list">
                     <form class="forms" action="{% url 'pictures:index' %}" method="POST">
                         {% csrf_token %}
-                        <input type="text" id="loc_lat" placeholder="Latitute" class="form-control"/>
-                        <input type="text" id="loc_long" placeholder="Longitude" class="form-control"/>
+                        <input type="number" step="any" id="loc_lat" placeholder="Latitute" min="-90" max="90" class="form-control"/>
+                        <input type="number" step="any" id="loc_long" placeholder="Longitude" min="-180" max="80"  class="form-control"/>
                         <input type="text" id="loc_name" placeholder="Name" class="form-control"/>
                         <button type="button" onclick="add_location()" class="btn btn-primary">Save</button>
                     </form>
