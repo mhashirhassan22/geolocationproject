@@ -1,0 +1,125 @@
+.paginationTable {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.customPagination,
+.paginacaoCursor {
+  font-size: larger;
+  margin: 0px 5px 0px 5px;
+  padding: 5px;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: url("/static/world-background.jpg");
+}
+.images {
+  border: 1px gray solid;
+}
+.pageBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.pageBtn:focus {
+  outline: none !important;
+}
+.btn-img {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  background-color: white;
+  outline: 1px dotted blue;
+}
+.btn-img .img-wrap {
+  margin: 5px;
+}
+
+.btn-img img {
+  display: block;
+}
+
+.btn-img:hover .img-wrap {
+  background-color: black;
+}
+
+.btn-img:hover img {
+  opacity: 0.8;
+}
+.tableItem {
+  margin: 10px;
+}
+.main {
+  margin-top: 200px;
+}
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 30px auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.forms input {
+  width: 400px;
+  margin: 10px 0px 10px 0px;
+}
+.forms-btn {
+  float: right;
+  margin: 10px 0px 10px 0px;
+}
+.img_text {
+  position: absolute;
+  top: 30%;
+  left: 30%;
+}
+.user-list {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.contain {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+.user-list-item {
+  padding: 10px 0px 10px 20px;
+  border-bottom: 1px solid rgb(199, 199, 199);
+}
